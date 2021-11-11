@@ -2,16 +2,18 @@ package br.com.renildo.ecommerce;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
+import java.util.Map;
+
 public class FraudeDetectorService {
     public static void main(String[] args) {
         var fraudeService = new FraudeDetectorService();
-        try (var service = new KafkaService(EmailService.class.getSimpleName(),
-                "ECOMMERCE_NEW_ORDER", fraudeService::parse)) {
+        try (var service = new KafkaService<>(EmailService.class.getSimpleName(),
+                "ECOMMERCE_NEW_ORDER", fraudeService::parse, Order.class, Map.of())) {
             service.run();
         }
     }
 
-    private void parse(ConsumerRecord<String, String> record) {
+    private void parse(ConsumerRecord<String, Order> record) {
         System.out.println("______________________________________");
         System.out.println("Processando tópico, verivicando fraude");
         System.out.println(record.key());

@@ -1,22 +1,25 @@
 package br.com.renildo.ecommerce;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 public class NewOrderMain {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        try (var dispatcher = new KafkaDispatcher()) {
-            for (var i = 0; i < 10; i++) {
+        try (var orderDispatcher = new KafkaDispatcher<Order>()) {
+            try (var emailDispatcher = new KafkaDispatcher<Email>()) {
+                for (var i = 0; i < 10; i++) {
 
-                var key = UUID.randomUUID().toString();
-                var value = key + ",131231,5242425424";
-                dispatcher.send("ECOMMERCE_NEW_ORDER", key, value);
+                    var userId = UUID.randomUUID().toString();
+                    var orderId = UUID.randomUUID().toString();
+                    var amount = new BigDecimal(Math.random() * 5000 + 1);
+                    var order = new Order(userId, orderId, amount);
 
-                var email = "Bem vindo! Sua ordem está sendo processada!";
-                dispatcher.send("ECOMMERCE_SEND_EMAIL", key, email);
+                    orderDispatcher.send("ECOMMERCE_NEW_ORDER", userId, order);
+
+                    emailDispatcher.send("ECOMMERCE_SEND_EMAIL", userId, new Email("Compra enviada","Bem vindo! Sua ordem está sendo processada!"));
+                }
             }
         }
     }
-
-
 }
