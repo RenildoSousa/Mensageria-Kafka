@@ -34,11 +34,11 @@ public class FraudeDetectorService {
 
         if (isFraude(order)) {
             System.out.println("Está compra é uma fraude!!!");
-            orderKafkaDispatcher.send("ECOMMERCE_ORDER_REJECTED", order.getUserId(), order);
+            orderKafkaDispatcher.send("ECOMMERCE_ORDER_REJECTED", order.getEmail(), order);
         }
         else {
             System.out.println("Aprovado: " + order);
-            orderKafkaDispatcher.send("ECOMMERCE_ORDER_APROVED", order.getUserId(), order);
+            orderKafkaDispatcher.send("ECOMMERCE_ORDER_APROVED", order.getEmail(), order);
         }
     }
 

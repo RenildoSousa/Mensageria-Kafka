@@ -16,6 +16,7 @@
         <module>common-kafka</module>
         <module>users-service</module>
         <module>fraude-detector-service</module>
+        <module>http-service</module>
     </modules>
 
     <properties>
