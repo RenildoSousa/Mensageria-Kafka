@@ -49,7 +49,7 @@ public class CreateUserService {
     }
 
     private void insertNewUser(String email) throws SQLException {
-        var insert = connection.prepareStatement("insert into User (id, imail) " +
+        var insert = connection.prepareStatement("insert into User (id, email) " +
                 "values (?,?)");
         insert.setString(1, UUID.randomUUID().toString());
         insert.setString(2, email);
