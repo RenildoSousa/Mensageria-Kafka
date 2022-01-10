@@ -7,6 +7,9 @@ START ZOOKIPER
 CREATE TOPIC
 -bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic LOJA_NOVO_PEDIDO
 
+ALTER TOPIC
+-bin/kafka-topics.sh --alter --zookeeper localhost:2181 --topic "NOME_TOPICO" --partitions 3
+
 CREATE PRODUCER
 -bin/kafka-console-producer.sh --broker-list localhost:9092 --topic LOJA_NOVO_PEDIDO
 
@@ -15,4 +18,3 @@ CREATE CONSUMER
 
 OPEN CONFIGURAÇÕES DO SERVIDOR
 -nano config/server.properties
-
